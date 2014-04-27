@@ -1,4 +1,6 @@
 --taper, rewinds the tape.
+--Authors: Bizzycola and Vexatos
+
 local component = require("component")
 local tape = component.tape_drive
 while true do
