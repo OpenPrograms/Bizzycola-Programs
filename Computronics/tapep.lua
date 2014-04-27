@@ -1,4 +1,4 @@
---tapep, rewinds and plays the tape. Use tapep -p to play the tape without rewinding it before
+--tapep, rewinds and plays the tape, pauses playing drives. Use tapep -p to play the tape without rewinding it before
 --Author: Bizzycola and Vexatos
 
 local component = require("component")
@@ -17,7 +17,11 @@ if not tape.isReady() then
   return
 end
 
-if not options.p then
-  tape.seek(-tape.getSize())
+if tape.getState == "PLAYING" then
+  tape.stop()
+else
+  if not options.p then
+    tape.seek(-tape.getSize())
+  end
+  tape.play()
 end
-tape.play()
