@@ -79,9 +79,9 @@ local _,y = term.getCursor()
 while true do
   local bytes = file:read(block)
   term.setCursor(1,y)
-  term.write("Read "..tostring(bytery).." bytes...")
   if (not bytes) or bytes == "" then break end
   bytery = bytery + #bytes
+  term.write("Read "..tostring(bytery).." bytes...")
   tape.write(bytes)
 end
 file:close()
