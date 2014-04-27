@@ -53,11 +53,10 @@ tape.stop()
 tape.seek(-tape.getSize())
 tape.stop() --Just making sure
 
-local file,msg
+local file,msg,y
 local block = 1024 --How much to read at a time
 local bytery = 0 --For the progress indicator
 local filesize = tape.getSize()
-local _,y = term.getCursor()
 
 if options.o then
 
@@ -78,7 +77,8 @@ if options.o then
   local start = false
 
   print("Writing...")
-
+  
+  _,y = term.getCursor()
   file:write("GET "..path.." HTTP/1.1\r\nHost: "..domain.."\r\nConnection: close\r\n\r\n")
 
   repeat
@@ -119,6 +119,7 @@ else
     return
   end
   print("Writing...")
+  _,y = term.getCursor()
 end
 
 if filesize > tape.getSize() then
