@@ -85,6 +85,17 @@ if options.o then
       bytery = bytery + #bytes
       tape.write(bytes)
       start = true
+    elseif string.find(bytes,"\r\n?$") then
+      local old = bytes
+      bytes = file:read(block)
+      local match = old..bytes
+      if string.find(match,"\r\n\r\n") then
+        bytes = string.gsub(match,".-\r\n\r\n","",1)
+        if not bytes then break end
+        bytery = bytery + #bytes
+        tape.write(bytes)
+        start = true
+      end
     end
   until start == true
 else
@@ -109,4 +120,5 @@ while true do
 end
 file:close()
 
-print("\nDone.")
+term.setCursor(1,y+1)
+print("Done.")
