@@ -1,7 +1,9 @@
---tapel, labels the tape(doesn't take spaces yet, sorry)
+--tapep, rewinds and plays the tape, pauses playing drives. Use tapep -p to play the tape without rewinding it before
 --Author: Bizzycola and Vexatos
 
 local component = require("component")
+local shell = require("shell")
+local args, options = shell.parse(...)
 
 if not component.isAvailable("tape_drive") then
   io.stderr:write("This program requires a tape drive to run.")
@@ -15,10 +17,11 @@ if not tape.isReady() then
   return
 end
 
-local args = {...}
-if #args < 1 then
-  print("Usage:")
-  print("tapel <label>")
+if tape.getState() == "PLAYING" then
+  tape.stop()
 else
-  tape.setLabel(args[1])
+  if not options.p then
+    tape.seek(-tape.getSize())
+  end
+  tape.play()
 end

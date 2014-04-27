@@ -1,9 +1,19 @@
---taper, plays the tape, pointless now because yo can do it on the tape drive, but here anyway.
+--taper, rewinds the tape.
+--Authors: Bizzycola and Vexatos
+
 local component = require("component")
-local tape = component.tape_drive
-while true do
-  if tape.seek(-1000000) < 1 then
-    break
-  end
+
+if not component.isAvailable("tape_drive") then
+  io.stderr:write("This program requires a tape drive to run.")
+  return
 end
-tape.play()
+
+local tape = component.tape_drive
+
+if not tape.isReady() then
+  io.stderr:write("The tape drive does not contain a tape.")
+  return
+end
+
+tape.seek(-tape.getSize())
+tape.stop()
