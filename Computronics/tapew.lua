@@ -56,10 +56,10 @@ if options.o then
   file:write("GET "..path.." HTTP/1.1\r\nHost: "..domain.."\r\nConnection: close\r\n\r\n")
   repeat
     local bytes = file:read(block)
-    bytery = bytery + 1024
     if string.find(bytes,"\r\n\r\n") then
       bytes = string.gsub(bytes,".-\r\n\r\n","",1)
       if not bytes then break end
+      bytery = bytery + #bytes
       tape.write(bytes)
       start = true
     end
@@ -81,7 +81,7 @@ while true do
   term.setCursor(1,y)
   term.write("Read "..tostring(bytery).." bytes...")
   if (not bytes) or bytes == "" then break end
-  bytery = bytery + 1024
+  bytery = bytery + #bytes
   tape.write(bytes)
 end
 file:close()
