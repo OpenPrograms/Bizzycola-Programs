@@ -6,7 +6,7 @@ local shell = require("shell")
 local args, options = shell.parse(...)
 
 if not component.isAvailable("tape_drive") then
-  io.stderr:write("This program requires a tape drive to write to.")
+  io.stderr:write("This program requires a tape drive to run.")
   return
 end
 
