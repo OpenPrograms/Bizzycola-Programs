@@ -1,4 +1,6 @@
 --tapel, labels the tape(doesn't take spaces yet, sorry)
+--Author: Bizzycola
+
 local component = require("component")
 local tape = component.tape_drive
 
