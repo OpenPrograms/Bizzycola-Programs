@@ -53,8 +53,8 @@ if options.o then
   repeat
     local bytes = file:read(block)
     if string.find(bytes,"\r\n\r\n") then
-    bytes = string.gsub(bytes,".*\r\n\r\n","",1)
-    if not bytes then break end
+      bytes = string.gsub(bytes,".*\r\n\r\n","",1)
+      if not bytes then break end
       tape.write(bytes)
       start = true
     end
