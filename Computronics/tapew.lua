@@ -56,7 +56,9 @@ tape.stop() --Just making sure
 local file,msg
 local block = 1024 --How much to read at a time
 local bytery = 0 --For the progress indicator
-local filesize = block
+local filesize = tape.getSize()
+local _,y = term.getCursor()
+
 if options.o then
 
   local url = string.gsub(args[1],"https?://","",1)
@@ -74,19 +76,21 @@ if options.o then
   file = internet.open(domain, 80)
   file:setTimeout(10)
   local start = false
-  local _,y = term.getCursor()
 
   print("Writing...")
 
   file:write("GET "..path.." HTTP/1.1\r\nHost: "..domain.."\r\nConnection: close\r\n\r\n")
+  
+  
+  
   repeat
     local bytes = file:read(block)
+    if string.match(bytes,"Content%-Length: (.-)\r\n") then
+      filesize = tonumber(string.match(bytes,"Content%-Length: (%d-)\r\n"))
+    end
     if string.find(bytes,"\r\n\r\n") then
       bytes = string.gsub(bytes,".-\r\n\r\n","",1)
       if not bytes then break end
-      if string.match(bytes,"Content%-Length: (.-)\r\n") then
-      filesize = tonumber(string.match(bytes,"Content%-Length: (%d-)\r\n"))
-      end
       term.setCursor(1,y)
       bytery = bytery + #bytes
       term.write("Read "..tostring(bytery).." bytes...")
