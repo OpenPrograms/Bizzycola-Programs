@@ -17,7 +17,7 @@ if not tape.isReady() then
   return
 end
 
-if tape.getState == "PLAYING" then
+if tape.getState() == "PLAYING" then
   tape.stop()
 else
   if not options.p then
