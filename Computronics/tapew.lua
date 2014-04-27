@@ -80,9 +80,7 @@ if options.o then
   print("Writing...")
 
   file:write("GET "..path.." HTTP/1.1\r\nHost: "..domain.."\r\nConnection: close\r\n\r\n")
-  
-  
-  
+
   repeat
     local bytes = file:read(block)
     if string.match(bytes,"Content%-Length: (.-)\r\n") then
