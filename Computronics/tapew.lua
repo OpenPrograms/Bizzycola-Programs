@@ -120,5 +120,4 @@ while true do
 end
 file:close()
 
-term.setCursor(1,y+1)
-print("Done.")
+print("\nDone.")
