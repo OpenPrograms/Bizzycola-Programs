@@ -3,9 +3,11 @@
 
 local component = require("component")
 local tape = component.tape_drive
-while true do
-  if tape.seek(-1000000) < 1 then
-    break
-  end
+
+if not tape.isReady() then
+  io.stderr:write("The tape drive does not contain a tape.")
+  return
 end
+
+tape.seek(-tape.getSize())
 tape.stop()
