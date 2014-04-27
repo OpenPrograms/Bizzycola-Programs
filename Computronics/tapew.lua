@@ -59,16 +59,6 @@ if options.o then
       start = true
     end
   until start == true
-
-  while true do
-    local bytes = file:read(block)
-    if not bytes then break end
-    tape.write(bytes)
-  end
-  file:close()
-
-  print("Done.")
-  
 else
   local path = shell.resolve(args[1])
   print("Path: "..path)
@@ -78,13 +68,13 @@ else
     return
   end
   print("Writing...")
-
-  while true do
-    local bytes = file:read(block)
-    if not bytes then break end
-    tape.write(bytes)
-  end
-  file:close()
-
-  print("Done.")
 end
+
+while true do
+  local bytes = file:read(block)
+  if not bytes then break end
+  tape.write(bytes)
+end
+file:close()
+
+print("Done.")
