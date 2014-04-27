@@ -1,11 +1,23 @@
---tapep, rewinds and plays the tape.
---Author: Bizzycola
+--tapep, rewinds and plays the tape. Use tapep -p to play the tape without rewinding it before
+--Author: Bizzycola and Vexatos
 
 local component = require("component")
+local shell = require("shell")
+local args, options = shell.parse(...)
+
+if not component.isAvailable("tape_drive") then
+  io.stderr:write("This program requires a tape drive to write to.")
+  return
+end
+
 local tape = component.tape_drive
-while true do
-  if tape.seek(-1000000) < 1 then
-    break
-  end
+
+if not tape.isReady() then
+  io.stderr:write("The tape drive does not contain a tape.")
+  return
+end
+
+if not options.p then
+  tape.seek(-tape.getSize())
 end
 tape.play()
