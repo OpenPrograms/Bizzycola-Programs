@@ -11,6 +11,8 @@ if #args<=0 then
   print("Usage:")
   print("'tapew <path/of/audio/file>' to write from a file")
   print("'tapew -o <URL>' to write from a URL")
+  print("Other options:")
+  print("'--address=<address>' to use a specific tape drive")
   return
 end
 
@@ -19,7 +21,24 @@ if not component.isAvailable("tape_drive") then
   return
 end
 
-local tape = component.tape_drive
+--Credits to gamax92 for this
+local tape
+if options.address then
+  local fulladdr = component.get(options.address)
+  if fulladdr == nil then
+    io.stderr:write("No component at this address.")
+    return
+  end
+  if component.type(fulladdr) ~= "tape_drive" then
+    io.stderr:write("No tape drive at this address.")
+    return
+  end
+  tape = component.proxy(fulladdr)
+else
+  tape = component.tape_drive
+end
+--End of gamax92's part
+
 local block = 1024
 
 if not tape.isReady() then
