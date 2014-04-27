@@ -3,6 +3,7 @@
 
 local component = require("component")
 local shell = require("shell")
+local term = require("term")
 local args,options = shell.parse(...)
 
 if #args<=0 then
@@ -31,6 +32,7 @@ tape.seek(-tape.getSize())
 tape.stop() --Just making sure
 
 local file,msg
+local bytery = 0 --For the progress indicator
 if options.o then
 
   local url = string.gsub(args[1],"https?://","",1)
@@ -46,15 +48,17 @@ if options.o then
 
   local internet = require("internet")
   file = internet.open(domain, 80)
+  file:setTimeout(10)
   local start = false
   
   print("Writing...")
 
-  file:write("GET "..path.." HTTP/1.1\r\nHost: "..domain.."\r\n\r\n")
+  file:write("GET "..path.." HTTP/1.1\r\nHost: "..domain.."\r\nConnection: close\r\n\r\n")
   repeat
     local bytes = file:read(block)
+    bytery = bytery + 1024
     if string.find(bytes,"\r\n\r\n") then
-      bytes = string.gsub(bytes,".*\r\n\r\n","",1)
+      bytes = string.gsub(bytes,".-\r\n\r\n","",1)
       if not bytes then break end
       tape.write(bytes)
       start = true
@@ -71,11 +75,16 @@ else
   print("Writing...")
 end
 
+local _,y = term.getCursor()
 while true do
   local bytes = file:read(block)
-  if not bytes then break end
+  term.setCursor(1,y)
+  term.write("Read "..tostring(bytery).." bytes...")
+  if (not bytes) or bytes == "" then break end
+  bytery = bytery + 1024
   tape.write(bytes)
 end
 file:close()
 
+term.setCursor(1,y+1)
 print("Done.")
