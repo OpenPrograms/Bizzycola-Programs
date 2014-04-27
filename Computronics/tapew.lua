@@ -24,6 +24,10 @@ end
 --Credits to gamax92 for this
 local tape
 if options.address then
+  if type(options.address) ~= "string" then
+    io.stderr:write("'address' may only be a string.")
+    return
+  end
   local fulladdr = component.get(options.address)
   if fulladdr == nil then
     io.stderr:write("No component at this address.")
