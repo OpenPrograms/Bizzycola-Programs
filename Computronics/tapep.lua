@@ -1,4 +1,6 @@
---tapep, plays the tape, pointless now because yo can do it on the tape drive, but here anyway.
+--taper, rewinds the tape.
+--Authors: Bizzycola and Vexatos
+
 local component = require("component")
 local tape = component.tape_drive
 while true do
@@ -6,4 +8,4 @@ while true do
     break
   end
 end
-tape.play()
+tape.stop()
