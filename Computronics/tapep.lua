@@ -1,5 +1,5 @@
---taper, rewinds the tape.
---Authors: Bizzycola and Vexatos
+--tapep, rewinds and plays the tape.
+--Author: Bizzycola
 
 local component = require("component")
 local tape = component.tape_drive
@@ -8,4 +8,4 @@ while true do
     break
   end
 end
-tape.stop()
+tape.play()
