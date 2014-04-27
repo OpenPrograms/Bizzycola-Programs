@@ -30,6 +30,7 @@ tape.stop()
 tape.seek(-tape.getSize())
 tape.stop() --Just making sure
 
+local file,msg
 if options.o then
 
   local url = string.gsub(args[1],"https?://","",1)
@@ -44,7 +45,7 @@ if options.o then
   end
 
   local internet = require("internet")
-  local file = internet.open(domain, 80)
+  file = internet.open(domain, 80)
   local start = false
   
   print("Writing...")
@@ -62,7 +63,7 @@ if options.o then
 else
   local path = shell.resolve(args[1])
   print("Path: "..path)
-  local file,msg = io.open(shell.resolve(path), "rb")
+  file,msg = io.open(shell.resolve(path), "rb")
   if not file then
     print("Error: "..msg)
     return
