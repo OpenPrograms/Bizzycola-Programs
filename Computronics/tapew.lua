@@ -21,12 +21,14 @@ end
 local tape = component.tape_drive
 local block = 1024
 
-while true do
-  if tape.seek(-1000000) < 1 then
-    break
-  end
+if not tape.isReady() then
+  io.stderr:write("The tape drive does not contain a tape.")
+  return
 end
+
 tape.stop()
+tape.seek(-tape.getSize())
+tape.stop() --Just making sure
 
 if options.o then
 
