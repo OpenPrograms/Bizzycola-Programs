@@ -77,7 +77,7 @@ if options.o then
   local start = false
 
   print("Writing...")
-  
+
   _,y = term.getCursor()
   file:write("GET "..path.." HTTP/1.1\r\nHost: "..domain.."\r\nConnection: close\r\n\r\n")
 
@@ -118,7 +118,9 @@ else
     io.stderr:write("Error: "..msg)
     return
   end
+
   print("Writing...")
+
   _,y = term.getCursor()
 end
 
